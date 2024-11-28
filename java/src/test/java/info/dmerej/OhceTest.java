@@ -2,7 +2,9 @@ package info.dmerej;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 public class OhceTest {
   @Test
@@ -11,7 +13,7 @@ public class OhceTest {
      TODO: check that given the following inputs:
       - hello
       - oto
-     - quit
+      - quit
 
     The following messages are shown to the user:
      - olleh
@@ -19,6 +21,20 @@ public class OhceTest {
      - That was a palindrome!
 
     */
-    fail("TODO");
+    // GIVEN
+    ConsoleInteractor interactor = mock(ConsoleInteractor.class);
+    Ohce ohce = new Ohce(interactor);
+
+    // WHEN
+    when(interactor.readInput()).thenReturn("hello", "oto", "quit");
+
+    // WHEN
+    ohce.mainLoop();
+
+    // THEN
+    verify(interactor).printMessage("olleh"); // "hello" reversed
+    verify(interactor).printMessage("oto");  // "oto" reversed
+    verify(interactor).printMessage("That was a palindrome!"); // Palindrome message for "quit"
+    verify(interactor, never()).printMessage("quit");
   }
 }
