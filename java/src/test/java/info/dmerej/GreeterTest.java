@@ -2,13 +2,25 @@ package info.dmerej;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.*;
 
 public class GreeterTest {
   @Test
   void nightlyGreeting() {
     // Assert that greeter says "Good night" when current hour is 0 (midnight)
-    fail("TODO");
+
+    // GIVING
+    SystemClock customClock = mock(SystemClock.class);
+    Greeter greeter = new Greeter(customClock);
+
+    // WHEN
+    when(customClock.getCurrentHour()).thenReturn(0);
+    String greeterMsg = greeter.greet();
+
+    // THEN
+    assertEquals(greeterMsg, "Good night");
   }
 
   @Test
